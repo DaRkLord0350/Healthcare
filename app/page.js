@@ -1,12 +1,11 @@
-import { Button } from "@/components/ui/button";
-// import { getRole } from "@/utils/roles";
-import { auth } from "@clerk/nextjs/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+import { getRole } from "@/utils/roles";
+import { auth } from "@clerk/nextjs/server";
+import AuthActions from "@/components/ui/AuthActions";
 export default async function Home() {
   const { userId } = await auth();
-  // const role = await getRole();
+  const role = await getRole();
 
   if (userId && role) {
     redirect(`/${role}`);
@@ -30,33 +29,8 @@ export default async function Home() {
             quae numquam possimus dolor. Illum, ipsam laudantium. Reprehenderit
           </p>
 
-          <div className="flex gap-4">
-            {userId ? (
-              <>
-                <Link href={`/${role}`}>
-                  <Button>View Dashboard</Button>
-                </Link>
-                {/* <UserButton /> */}
-              </>
-            ) : (
-              <>
-                <Link href="/sign-up">
-                  <Button className="md:text-base font-light">
-                    New Patient
-                  </Button>
-                </Link>
-
-                <Link href="/sign-in">
-                  <Button
-                    variant="outline"
-                    className="md:text-base underline hover:text-nlue-600"
-                  >
-                    Login to account
-                  </Button>
-                </Link>
-              </>
-            )}
-          </div>
+          {/* 👇 INSTANTLY UPDATES ON LOGIN/SIGNOUT */}
+          <AuthActions />
         </div>
       </div>
       <footer className="mt-8">
