@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { getRole } from "@/utils/roles";
 import { auth } from "@clerk/nextjs/server";
+import { redirect } from 'next/navigation';
 import AuthActions from "@/components/ui/AuthActions";
 export default async function Home() {
   const { userId } = await auth();
