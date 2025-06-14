@@ -17,11 +17,12 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();
   const url = new URL(req.url);
 
-
   console.log("🟢 Clerk Middleware Debug:");
+  console.log('Cookies:', req.headers.get('cookie'));
+// console.log('Session Claims:', sessionClaims);
   console.log("userId:", userId);
-  console.log("sessionClaims:", sessionClaims);
-  console.log("Calculated role:", sessionClaims?.metadata?.role);
+//   console.log("sessionClaims:", sessionClaims);
+//   console.log("Calculated role:", sessionClaims?.metadata?.role);
   
   const role =
     userId && sessionClaims?.metadata?.role
