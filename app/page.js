@@ -11,6 +11,7 @@ export default async function Home() {
   if (userId && role) {
     redirect(`/${role}`);
   }
+  console.log("Database URL:", process.env.DATABASE_URL);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-6">
@@ -26,6 +27,7 @@ export default async function Home() {
 
         <div className="text-center max-w-xl flex flex-col items-center justify-center">
           <p className="mb-8">
+            
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse maxime
             quae numquam possimus dolor. Illum, ipsam laudantium. Reprehenderit
           </p>
