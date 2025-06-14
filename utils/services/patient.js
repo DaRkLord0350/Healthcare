@@ -131,16 +131,16 @@ export async function getPatientDashboardStatistics(id) {
         working_days: true,
         colorCode: true,
       },
-      where: {
-        working_days: {
-          some: {
-            day: {
-              equals: today,
-              mode: "insensitive",
-            },
-          },
-        },
-      },
+      // where: {
+      //   working_days: {
+      //     some: {
+      //       day: {
+      //         equals: today,
+      //         mode: "insensitive",
+      //       },
+      //     },
+      //   },
+      // },
       take: 4,
     });
 

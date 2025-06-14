@@ -18,7 +18,7 @@ export default clerkMiddleware(async (auth, req) => {
   const url = new URL(req.url);
 
   console.log("🟢 Clerk Middleware Debug:");
-  console.log('Cookies:', req.headers.get('cookie'));
+  // console.log('Cookies:', req.headers.get('cookie'));
 // console.log('Session Claims:', sessionClaims);
   console.log("userId:", userId);
 //   console.log("sessionClaims:", sessionClaims);
