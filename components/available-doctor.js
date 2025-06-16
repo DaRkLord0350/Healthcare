@@ -27,7 +27,7 @@ export const availableDays = ({ data }) => {
 
 // AvailableDoctors component
 export const AvailableDoctors = async ({ data }) => {
-  console.log("AvailableDoctors received data:", data);
+  // console.log("AvailableDoctors received data:", data);
 
   // Visual debug in browser:
   // Remove later!

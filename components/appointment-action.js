@@ -7,7 +7,7 @@ import { Textarea } from "./ui/textarea";
 import { useRouter } from "next/navigation";
 import { appointmentAction } from "@/app/actions/appointment";
 
-export const AppointmentAction = ({ id, status }) => {
+export const AppointmentActionOptions = ({ id, status }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState("");
   const [reason, setReason] = useState("");
@@ -16,24 +16,30 @@ export const AppointmentAction = ({ id, status }) => {
   const handleAction = async () => {
     try {
       setIsLoading(true);
+
       const newReason =
         reason ||
-        `Appointment has been ${selected.toLowerCase()} on ${new Date()}`;
+        `Appointment has been ${selected.toLowerCase()} on ${new Date().toLocaleString()}`;
 
-      const resp = await appointmentAction(
-        id,
-        selected,
-        newReason
-      );
+      console.log("Submitting:", { id, selected, reason: newReason });
 
-      if (resp.success) {
+      if (!id) {
+        toast.error("Missing appointment ID");
+        return;
+      }
+
+      const resp = await appointmentAction(id, selected, newReason);
+
+      if (resp?.success) {
         toast.success(resp.msg);
+        setSelected("");
+        setReason("");
         router.refresh();
-      } else if (resp.error) {
-        toast.error(resp.msg);
+      } else {
+        toast.error(resp?.msg || "Action failed");
       }
     } catch (error) {
-      console.log(error);
+      console.error("AppointmentActionOptions error:", error);
       toast.error("Something went wrong. Try again later.");
     } finally {
       setIsLoading(false);
@@ -53,9 +59,7 @@ export const AppointmentAction = ({ id, status }) => {
         </Button>
         <Button
           variant="outline"
-          disabled={
-            status === "SCHEDULED" || isLoading || status === "COMPLETED"
-          }
+          disabled={status === "SCHEDULED" || isLoading || status === "COMPLETED"}
           className="bg-blue-200 text-black"
           onClick={() => setSelected("SCHEDULED")}
         >
@@ -63,9 +67,7 @@ export const AppointmentAction = ({ id, status }) => {
         </Button>
         <Button
           variant="outline"
-          disabled={
-            status === "COMPLETED" || isLoading || status === "COMPLETED"
-          }
+          disabled={status === "COMPLETED" || isLoading}
           className="bg-emerald-200 text-black"
           onClick={() => setSelected("COMPLETED")}
         >
@@ -73,31 +75,28 @@ export const AppointmentAction = ({ id, status }) => {
         </Button>
         <Button
           variant="outline"
-          disabled={
-            status === "CANCELLED" || isLoading || status === "COMPLETED"
-          }
+          disabled={status === "CANCELLED" || isLoading || status === "COMPLETED"}
           className="bg-red-200 text-black"
           onClick={() => setSelected("CANCELLED")}
         >
           Cancel
         </Button>
       </div>
+
       {selected === "CANCELLED" && (
-        <>
-          <Textarea
-            disabled={isLoading}
-            className="mt-4"
-            placeholder="Enter reason...."
-            onChange={(e) => setReason(e.target.value)}
-          />
-        </>
+        <Textarea
+          disabled={isLoading}
+          className="mt-4"
+          placeholder="Enter reason..."
+          onChange={(e) => setReason(e.target.value)}
+        />
       )}
 
       {selected && (
         <div className="flex items-center justify-between mt-6 bg-red-100 p-4 rounded">
           <p>Are you sure you want to perform this action?</p>
           <Button disabled={isLoading} type="button" onClick={handleAction}>
-            Yes
+            {isLoading ? "Processing..." : "Yes"}
           </Button>
         </div>
       )}

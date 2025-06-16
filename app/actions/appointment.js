@@ -1,10 +1,11 @@
 "use server";
 
+import { VitalSignsFormData } from "@/components/dialogs/add-vital-signs";
 import db from "@/lib/db";
 import { AppointmentSchema, VitalSignsSchema } from "@/lib/schema";
-import { auth } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
+import { AppointmentStatus } from "@prisma/client";
 
-// Create a new appointment
 export async function createNewAppointment(data) {
   try {
     const validatedData = AppointmentSchema.safeParse(data);
@@ -34,14 +35,12 @@ export async function createNewAppointment(data) {
     return { success: false, msg: "Internal Server Error" };
   }
 }
-
-// Update appointment status and reason
-export async function appointmentAction(
-  id,
-  status,
-  reason
-) {
+export async function appointmentAction(id, status, reason) {
   try {
+    if (!id || isNaN(Number(id))) {
+      return { success: false, msg: "Invalid or missing appointment ID" };
+    }
+
     await db.appointment.update({
       where: { id: Number(id) },
       data: {
@@ -56,17 +55,13 @@ export async function appointmentAction(
       msg: `Appointment ${status.toLowerCase()} successfully`,
     };
   } catch (error) {
-    console.log(error);
+    console.log("appointmentAction error:", error);
     return { success: false, msg: "Internal Server Error" };
   }
 }
 
-// Add vital signs to an appointment
-export async function addVitalSigns(
-  data,
-  appointmentId,
-  doctorId
-) {
+
+export async function addVitalSigns(data, appointmentId, doctorId) {
   try {
     const { userId } = await auth();
 
