@@ -16,7 +16,7 @@ import { format } from "date-fns";
 import { AppointmentStatusIndicator } from "./appointment-status-indicator";
 import { checkRole } from "@/utils/roles";
 import { auth } from "@clerk/nextjs/server";
-import { AppointmentAction } from "./appointment-action.js";
+import { AppointmentActionOptions as AppointmentAction } from "./appointment-action.js";
 
 export const ViewAppointment = async ({ id }) => {
   const { data } = await getAppointmentById(Number(id));

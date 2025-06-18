@@ -72,7 +72,7 @@ const MedicalRecordsPage = async ({ searchParams }) => {
           )}
         </td>
         <td>
-          <ViewAction href={`/appointments/${item.appointment_id}`} />
+          <ViewAction href={`./appointments/${item.appointment_id}`} />
         </td>
       </tr>
     );
