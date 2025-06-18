@@ -43,7 +43,7 @@ export const AvailableDoctors = async ({ data }) => {
       <div className="bg-white rounded-xl p-4">
         <h1 className="text-lg font-semibold">Available Doctors</h1>
         <p className="text-red-600">No data prop received! (Check parent fetch code)</p>
-        {debugBlock}
+        {/* {debugBlock} */}
       </div>
     );
   }
