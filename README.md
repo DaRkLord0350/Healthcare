@@ -95,12 +95,6 @@ Feel free to fork this repo, open issues, or submit PRs to improve features, des
 
 ---
 
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
 ## 🙋‍♀️ Acknowledgments
 
 - [Next.js Docs](https://nextjs.org/docs)
